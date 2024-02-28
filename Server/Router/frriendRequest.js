@@ -1,11 +1,15 @@
-import expresss from 'express'
-import { AddFriendRequest, deleteFrndRequest } from '../Controller/friendRequest.js'
-import AuthenticateUser from '../Auth/Authenticateuser.js'
+import expresss from "express";
+import {
+  AddFriendRequest,
+  AllFrndRequests,
+  deleteFrndRequest,
+} from "../Controller/friendRequest.js";
+import AuthenticateUser from "../Auth/Authenticateuser.js";
 
-const friendRequestRouter = expresss.Router()
+const friendRequestRouter = expresss.Router();
 
-friendRequestRouter.post('/', AuthenticateUser, AddFriendRequest)
-friendRequestRouter.delete('/deleterqst', deleteFrndRequest, AddFriendRequest)
+friendRequestRouter.post("/", AuthenticateUser, AddFriendRequest);
+friendRequestRouter.get("/", AuthenticateUser, AllFrndRequests);
+friendRequestRouter.delete("/deleterqst", deleteFrndRequest, AddFriendRequest);
 
-
-export default friendRequestRouter
+export default friendRequestRouter;

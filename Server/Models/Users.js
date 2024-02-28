@@ -1,46 +1,47 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcryptjs'
+import bcrypt from "bcryptjs";
 
-const UserSchema = mongoose.Schema({
-    name:{
-        type:String,
+const UserSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
     },
-    email:{
-        type:String,
+    email: {
+      type: String,
     },
-    password:{
-        type:String,
-        require:true,
+    password: {
+      type: String,
+      require: true,
     },
-    friends:{  
-        type:Array
+    friends: {
+      type: Array,
     },
-    profileImg:{
-        type:String,
+    friendRequests: {
+      type: Array,
     },
-    coverImg:{
-        type:String,
-    }
-}, {timestamps:true})
+    profileImg: {
+      type: String,
+    },
+    coverImg: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
 
-
-UserSchema.pre('save', async function nxt () {
-    if(!this.isModified('password')){
-        nxt()
-    }else{
-        const salt = await bcrypt.genSalt(10)
-        this.password = await bcrypt.hash(this.password, salt) 
-    }
-})
+UserSchema.pre("save", async function nxt() {
+  if (!this.isModified("password")) {
+    nxt();
+  } else {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+  }
+});
 
 UserSchema.methods.comparePwd = async function (pwd) {
-    return  bcrypt.compare(pwd, this.password)
-     
-}
+  return bcrypt.compare(pwd, this.password);
+};
 
+const Users = mongoose.model("Users", UserSchema);
 
-
-const Users = mongoose.model('Users', UserSchema)
-
-
-export default Users
+export default Users;
